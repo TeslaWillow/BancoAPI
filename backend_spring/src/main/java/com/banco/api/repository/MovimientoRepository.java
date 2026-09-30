@@ -16,10 +16,13 @@ import com.banco.api.model.entity.Movimiento;
 @Repository
 public interface MovimientoRepository extends JpaRepository<Movimiento, Long> {
 
-    // Obtener el último movimiento registrado para conocer el saldo actual disponible
+    // Find all movements of an account
+    List<Movimiento> findByCuentaNumeroCuenta(String numeroCuenta);
+
+    // Obtain last movement 
     Optional<Movimiento> findTopByCuentaNumeroCuentaOrderByFechaDescIdDesc(String numeroCuenta);
 
-    // Obtener movimientos de una cuenta dentro de un rango de fechas (utilizado para el Reporte)
+    // Obtain movements of an account within a date range (used for the Report)
     List<Movimiento> findByCuentaNumeroCuentaAndFechaBetweenOrderByFechaAsc(
             String numeroCuenta, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
