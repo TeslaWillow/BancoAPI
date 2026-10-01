@@ -1,0 +1,55 @@
+// ./frontend_angular/src/app/shared/components/organisms/table/table.component.scss
+@import 'variables';
+@import 'mixins';
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background-color: var(--bg-primary);
+
+  @include focus-visible-outline;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+
+  &__head {
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  &__th {
+    padding: $spacing-md;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  &__td {
+    padding: $spacing-md;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+
+    &--empty {
+      text-align: center;
+      color: var(--text-secondary);
+      padding: $spacing-xl;
+    }
+  }
+
+  &__row {
+    transition: background-color 0.15s ease;
+
+    &:last-child .table__td {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: var(--bg-secondary);
+    }
+  }
+}

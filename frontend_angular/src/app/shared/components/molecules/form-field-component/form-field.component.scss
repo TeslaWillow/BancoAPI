@@ -1,0 +1,24 @@
+// ./frontend_angular/src/app/shared/components/molecules/form-field/form-field.component.scss
+@import 'variables';
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  width: 100%;
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  &__required {
+    color: var(--color-error);
+  }
+
+  &__error {
+    font-size: 0.75rem;
+    color: var(--color-error);
+  }
+}

@@ -1,0 +1,11 @@
+// ./frontend_angular/src/app/shared/components/molecules/header-actions/header-actions.component.scss
+@import 'variables';
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  width: 100%;
+  margin-bottom: $spacing-lg;
+}

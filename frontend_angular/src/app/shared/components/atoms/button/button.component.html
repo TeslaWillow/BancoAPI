@@ -1,0 +1,17 @@
+<!-- ./frontend_angular/src/app/shared/components/atoms/button/button.component.html -->
+<button
+  [type]="type()"
+  [disabled]="disabled() || isLoading()"
+  [attr.aria-disabled]="disabled() || isLoading()"
+  [attr.aria-label]="ariaLabel()"
+  [ngClass]="['btn', 'btn--' + variant(), isLoading() ? 'btn--loading' : '']"
+  (click)="handleClick($event)"
+>
+  @if (isLoading()) {
+    <span class="btn__spinner" aria-hidden="true"></span>
+    <span class="sr-only">Cargando...</span>
+  }
+  <span [class.btn__content--hidden]="isLoading()">
+    <ng-content></ng-content>
+  </span>
+</button>

@@ -1,0 +1,22 @@
+<!-- ./frontend_angular/src/app/shared/components/molecules/search-bar/search-bar.component.html -->
+<div class="search-bar">
+  <label for="search-input" class="sr-only">{{ ariaLabel() }}</label>
+  <input
+    id="search-input"
+    type="text"
+    class="search-bar__input"
+    [placeholder]="placeholder()"
+    [value]="searchTerm()"
+    (input)="onInput($event)"
+  />
+  @if (searchTerm()) {
+    <button
+      type="button"
+      class="search-bar__clear"
+      aria-label="Limpiar búsqueda"
+      (click)="clearSearch()"
+    >
+      ✕
+    </button>
+  }
+</div>

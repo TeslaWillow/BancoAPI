@@ -1,0 +1,15 @@
+<!-- ./frontend_angular/src/app/shared/components/atoms/theme-toggle/theme-toggle.component.html -->
+<button
+  type="button"
+  class="theme-toggle"
+  (click)="themeService.toggleTheme()"
+  [attr.aria-label]="
+    'Cambiar a modo ' + (themeService.currentTheme() === 'light' ? 'oscuro' : 'claro')
+  "
+>
+  @if (themeService.currentTheme() === 'light') {
+    <span>🌙 Dark</span>
+  } @else {
+    <span>☀️ Light</span>
+  }
+</button>

@@ -1,0 +1,40 @@
+// ./frontend_angular/src/app/shared/components/molecules/search-bar/search-bar.component.scss
+@import 'variables';
+@import 'mixins';
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+
+  &__input {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    padding-right: $spacing-xl;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+
+    @include focus-visible-outline;
+  }
+
+  &__clear {
+    position: absolute;
+    right: $spacing-sm;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.875rem;
+    padding: $spacing-xs;
+
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+}

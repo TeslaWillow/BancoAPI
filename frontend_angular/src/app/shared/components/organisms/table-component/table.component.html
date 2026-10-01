@@ -1,0 +1,43 @@
+<!-- ./frontend_angular/src/app/shared/components/organisms/table/table.component.html -->
+<div class="table-container" tabindex="0" role="region" [attr.aria-label]="ariaLabel()">
+  <table class="table">
+    <thead class="table__head">
+      <tr>
+        @for (col of columns(); track col.key) {
+          <th scope="col" class="table__th">{{ col.header }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody class="table__body">
+      @if (isLoading()) {
+        <tr>
+          <td [attr.colspan]="columns().length" class="table__td table__td--empty">
+            Cargando información...
+          </td>
+        </tr>
+      } @else if (data().length === 0) {
+        <tr>
+          <td [attr.colspan]="columns().length" class="table__td table__td--empty">
+            {{ emptyMessage() }}
+          </td>
+        </tr>
+      } @else {
+        @for (row of data(); track $index) {
+          <tr class="table__row">
+            @for (col of columns(); track col.key) {
+              <td class="table__td">
+                @if (col.cellTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="col.cellTemplate; context: { $implicit: row }"
+                  ></ng-container>
+                } @else {
+                  {{ getValue(row, col.key) }}
+                }
+              </td>
+            }
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
