@@ -1,0 +1,18 @@
+<!-- ./frontend_angular/src/app/layout/components/sidebar/sidebar.component.html -->
+<aside class="sidebar">
+  <nav class="sidebar__nav">
+    <ul class="sidebar__list">
+      @for (item of navItems; track item.route) {
+        <li class="sidebar__item">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="sidebar__link--active"
+            class="sidebar__link"
+          >
+            {{ item.label }}
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+</aside>

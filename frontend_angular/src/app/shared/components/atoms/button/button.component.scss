@@ -1,6 +1,6 @@
 // ./frontend_angular/src/app/shared/components/atoms/button/button.component.scss
-@import 'variables';
-@import 'mixins';
+@use 'variables' as *;
+@use 'mixins' as *;
 
 .btn {
   display: inline-flex;

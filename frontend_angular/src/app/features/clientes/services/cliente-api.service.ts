@@ -1,37 +1,21 @@
 // ./frontend_angular/src/app/features/clientes/services/cliente-api.service.ts
-import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import { Cliente, ClienteBackendDTO, CreateClienteFormPayload } from '../models/cliente.model';
+import { ClienteAdapter } from '../adapters/cliente.adapter';
 import { ApiService } from '../../../core/services/api.service';
-import { Cliente } from '../models/cliente.model';
-import { ClienteAdapter, ClienteV1Response } from '../adapters/cliente.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ClienteApiService {
-  private readonly _apiService = inject(ApiService);
-  private readonly _endpoint = '/api/v1/clientes';
+  private readonly api = inject(ApiService);
+  private readonly apiUrl = '/api/v1/clientes';
 
   public getAll(): Observable<Cliente[]> {
-    return this._apiService
-      .get<ClienteV1Response[]>(this._endpoint)
-      .pipe(map((dtos) => dtos.map(ClienteAdapter.fromV1ToDomain)));
+    return this.api.get<ClienteBackendDTO[]>(this.apiUrl).pipe(map(ClienteAdapter.toDomainList));
   }
 
-  public getById(id: string): Observable<Cliente> {
-    return this._apiService
-      .get<ClienteV1Response>(`${this._endpoint}/${id}`)
-      .pipe(map(ClienteAdapter.fromV1ToDomain));
-  }
-
-  public create(cliente: Partial<Cliente>): Observable<Cliente> {
-    const payload = {
-      nombres: cliente.fullName,
-      identificacion: cliente.documentId,
-    };
-
-    return this._apiService
-      .post<ClienteV1Response>(this._endpoint, payload)
-      .pipe(map(ClienteAdapter.fromV1ToDomain));
+  public create(payload: CreateClienteFormPayload): Observable<Cliente> {
+    const body = ClienteAdapter.toApiCreate(payload);
+    return this.api.post<ClienteBackendDTO>(this.apiUrl, body).pipe(map(ClienteAdapter.toDomain));
   }
 }

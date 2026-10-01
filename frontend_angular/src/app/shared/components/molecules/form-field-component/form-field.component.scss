@@ -1,5 +1,5 @@
 // ./frontend_angular/src/app/shared/components/molecules/form-field/form-field.component.scss
-@import 'variables';
+@use 'variables' as *;
 
 .form-field {
   display: flex;

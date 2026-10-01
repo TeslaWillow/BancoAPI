@@ -1,6 +1,6 @@
 // ./frontend_angular/src/app/shared/components/atoms/theme-toggle/theme-toggle.component.scss
-@import 'variables';
-@import 'mixins';
+@use 'variables' as *;
+@use 'mixins' as *;
 
 .theme-toggle {
   padding: $spacing-xs $spacing-sm;

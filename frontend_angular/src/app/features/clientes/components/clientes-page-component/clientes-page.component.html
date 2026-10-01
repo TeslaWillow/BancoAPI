@@ -1,0 +1,25 @@
+<!-- ./frontend_angular/src/app/features/clientes/pages/clientes-page/clientes-page.component.html -->
+<section class="clientes-page">
+  <app-header-actions
+    searchPlaceholder="Buscar por nombre o ID..."
+    buttonText="Nuevo Cliente"
+    (search)="onSearch($event)"
+    (actionClick)="openModal()"
+  ></app-header-actions>
+
+  <app-table
+    [columns]="columns"
+    [data]="filteredClientes()"
+    [isLoading]="isLoading()"
+    emptyMessage="No se encontraron clientes registrados."
+    ariaLabel="Tabla de Clientes"
+  ></app-table>
+
+  <app-modal [isOpen]="isModalOpen()" title="Registrar Nuevo Cliente" (closeModal)="closeModal()">
+    <div modal-body>
+      @if (isModalOpen()) {
+        <app-cliente-form (submitForm)="handleCreateCliente($event)" (cancel)="closeModal()" />
+      }
+    </div>
+  </app-modal>
+</section>

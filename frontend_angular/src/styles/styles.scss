@@ -1,7 +1,7 @@
 // ./frontend_angular/src/styles/styles.scss
-@import 'variables';
-@import 'themes';
-@import 'mixins';
+@use 'variables' as *;
+@use 'themes' as *;
+@use 'mixins' as *;
 
 *,
 *::before,

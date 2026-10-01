@@ -1,5 +1,5 @@
 // ./frontend_angular/src/app/shared/components/organisms/navbar/navbar.component.scss
-@import 'variables';
+@use 'variables' as *;
 
 .navbar {
   display: flex;

@@ -1,6 +1,6 @@
 // ./frontend_angular/src/app/shared/components/organisms/modal/modal.component.scss
-@import 'variables';
-@import 'mixins';
+@use 'variables' as *;
+@use 'mixins' as *;
 
 .modal-backdrop {
   position: fixed;

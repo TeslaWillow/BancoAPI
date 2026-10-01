@@ -1,25 +1,36 @@
-import { Cliente } from '../models/cliente.model';
-
-// ./frontend_angular/src/app/features/clientes/adapters/cliente.adapter.ts
-export interface ClienteV1Response {
-  cliente_id: string;
-  nombres: string;
-  apellidos: string;
-  identificacion: string;
-  estado: boolean;
-}
+// ./src/app/features/clientes/adapters/cliente.adapter.ts
+import { Cliente, ClienteBackendDTO, CreateClienteFormPayload } from '../models/cliente.model';
 
 export class ClienteAdapter {
-  static fromV1ToDomain(dto: ClienteV1Response): Cliente {
-    if (!dto) {
-      throw new Error('DTO invalido para ClienteAdapter');
-    }
-
+  static toDomain(dto: ClienteBackendDTO): Cliente {
     return {
-      id: dto.cliente_id ?? '',
-      fullName: `${dto.nombres ?? ''} ${dto.apellidos ?? ''}`.trim(),
-      documentId: dto.identificacion ?? 'N/A',
-      isActive: Boolean(dto.estado),
+      id: dto.id,
+      fullName: dto.nombre,
+      documentId: dto.identificacion,
+      address: dto.direccion,
+      phone: dto.telefono,
+      status: dto.estado,
+      gender: dto.genero,
+      age: dto.edad,
+      clientId: dto.clienteId,
+    };
+  }
+
+  static toDomainList(dtos: ClienteBackendDTO[]): Cliente[] {
+    return dtos.map(ClienteAdapter.toDomain);
+  }
+
+  static toApiCreate(payload: CreateClienteFormPayload): ClienteBackendDTO {
+    return {
+      nombre: payload.fullName,
+      identificacion: payload.documentId,
+      direccion: payload.address,
+      telefono: payload.phone,
+      contrasena: payload.password,
+      estado: payload.status,
+      genero: payload.gender,
+      edad: Number(payload.age),
+      clienteId: payload.clientId,
     };
   }
 }

@@ -1,0 +1,41 @@
+// ./frontend_angular/src/app/layout/components/sidebar/sidebar.component.scss
+@use 'variables' as *;
+
+.sidebar {
+  width: 220px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  height: calc(100vh - 60px);
+  position: fixed;
+  top: 60px;
+  left: 0;
+  padding-top: $spacing-md;
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__link {
+    display: block;
+    padding: $spacing-md $spacing-lg;
+    color: #4a5568;
+    text-decoration: none;
+    font-size: $font-size-md;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #f7fafc;
+      color: #1a365d;
+    }
+
+    &--active {
+      font-weight: 600;
+      color: #1a365d;
+      background-color: #edf2f7;
+      border-left-color: #1a365d;
+    }
+  }
+}

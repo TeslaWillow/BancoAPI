@@ -1,6 +1,6 @@
 // ./frontend_angular/src/app/shared/components/molecules/search-bar/search-bar.component.scss
-@import 'variables';
-@import 'mixins';
+@use 'variables' as *;
+@use 'mixins' as *;
 
 .search-bar {
   position: relative;

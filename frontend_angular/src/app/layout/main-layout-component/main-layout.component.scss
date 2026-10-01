@@ -1,0 +1,15 @@
+// ./frontend_angular/src/app/layout/main-layout/main-layout.component.scss
+@use 'variables' as *;
+
+.layout-body {
+  display: flex;
+  margin-top: 60px;
+  min-height: calc(100vh - 60px);
+}
+
+.main-content {
+  margin-left: 220px;
+  flex: 1;
+  padding: $spacing-xl;
+  background-color: #f8fafc;
+}

@@ -1,6 +1,6 @@
 // ./frontend_angular/src/app/shared/components/atoms/input/input.component.scss
-@import 'variables';
-@import 'mixins';
+@use 'variables' as *;
+@use 'mixins' as *;
 
 .input-field {
   display: flex;
