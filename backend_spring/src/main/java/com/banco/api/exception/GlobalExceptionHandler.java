@@ -14,26 +14,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Captures violated business rules (Insufficient balance, Daily limit exceeded, etc.)
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<Map<String, Object>> handleBusinessException(BusinessException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("mensaje", ex.getMessage());
-        body.put("status", HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    // Catches violated business rules (Insufficient balance, Daily limit exceeded, etc.)
+    @ExceptionHandler({BusinessException.class, InsufficientBalanceException.class, DailyLimitExceededException.class, IllegalArgumentException.class})
+    public ResponseEntity<Map<String, Object>> handleBadRequest(RuntimeException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     // Catches when a resource is not found (404)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleNotFoundException(ResourceNotFoundException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("mensaje", ex.getMessage());
-        body.put("status", HttpStatus.NOT_FOUND.value());
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    public ResponseEntity<Map<String, Object>> handleNotFound(ResourceNotFoundException ex) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
     // Catches validation errors of DTO fields (@NotNull, @Min, etc.)
@@ -44,11 +34,14 @@ public class GlobalExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage())
         );
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("errores", errors);
-        body.put("status", HttpStatus.BAD_REQUEST.value());
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errors.toString());
+    }
 
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    private ResponseEntity<Map<String, Object>> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", status.value());
+        response.put("message", message);
+        return new ResponseEntity<>(response, status);
     }
 }
