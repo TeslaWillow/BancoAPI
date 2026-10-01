@@ -1,0 +1,43 @@
+# ./docker-compose.yml
+version: "3.8"
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: banco_postgres
+    environment:
+      POSTGRES_DB: banco_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend_spring/src/main/resources/DataBase.sql:/docker-entrypoint-initdb.d/DataBase.sql
+
+  backend:
+    build:
+      context: ./backend_spring
+      dockerfile: Dockerfile
+    container_name: banco_backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/banco_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgrespassword
+    depends_on:
+      - postgres-db
+
+  frontend:
+    build:
+      context: ./frontend_angular
+      dockerfile: Dockerfile
+    container_name: banco_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
