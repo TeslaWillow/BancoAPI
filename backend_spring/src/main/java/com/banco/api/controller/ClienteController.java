@@ -19,7 +19,7 @@ import com.banco.api.service.ClienteService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/v1/clientes")
 public class ClienteController {
 
     private final ClienteService clienteService;

@@ -18,7 +18,7 @@ import com.banco.api.service.MovimientoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/movimientos")
+@RequestMapping("/api/v1/movimientos")
 public class MovimientoController {
 
     private final MovimientoService movimientoService;
