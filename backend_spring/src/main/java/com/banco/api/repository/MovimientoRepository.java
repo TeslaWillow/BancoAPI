@@ -24,11 +24,24 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Long> {
 
     // Obtain movements of an account within a date range (used for the Report)
     List<Movimiento> findByCuentaNumeroCuentaAndFechaBetweenOrderByFechaAsc(
-            String numeroCuenta, LocalDateTime fechaInicio, LocalDateTime fechaFin);
+            String numeroCuenta, 
+            LocalDateTime fechaInicio, 
+            LocalDateTime fechaFin
+    );
+
+    // Obtain movements of an account within a date range (used for the Report)
+    List<Movimiento> findByCuentaNumeroCuentaAndFechaBetweenOrderByFechaDesc(
+            String numeroCuenta, 
+            LocalDateTime fechaInicio, 
+            LocalDateTime fechaFin
+    );
 
     // Query the movements of all accounts of a client in a date range
     List<Movimiento> findByCuentaClienteClienteIdAndFechaBetweenOrderByFechaAsc(
-            String clienteId, LocalDateTime fechaInicio, LocalDateTime fechaFin);
+            String clienteId, 
+            LocalDateTime fechaInicio, 
+            LocalDateTime fechaFin
+    );
 
     // Sum the accumulated debits (withdrawals) of the day for control of the daily limit of $1,000
     @Query("SELECT COALESCE(SUM(ABS(m.valor)), 0) FROM Movimiento m " +

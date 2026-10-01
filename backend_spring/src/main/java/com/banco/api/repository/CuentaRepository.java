@@ -13,4 +13,8 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
 
     // Search for all accounts belonging to a client using the Person/Client ID
     List<Cuenta> findByClienteId(Long clienteId);
+
+    // Search for all accounts belonging to a client using the Person/Client ID
+    // (String)
+    List<Cuenta> findByClienteClienteId(String clienteId);
 }
