@@ -23,7 +23,7 @@ public class ClienteService {
 
     @Transactional(readOnly = true)
     public List<ClienteDTO> findAll() {
-        return clienteRepository.findAll()
+        return clienteRepository.findByEstadoTrue()
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
@@ -31,14 +31,14 @@ public class ClienteService {
 
     @Transactional(readOnly = true)
     public ClienteDTO findById(Long id) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con el ID: " + id));
+        Cliente cliente = clienteRepository.findByIdAndEstadoTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado (o inactivo) con el ID: " + id));
         return mapToDTO(cliente);
     }
 
     @Transactional(readOnly = true)
     public ClienteDTO findByClienteId(String clienteId) {
-        Cliente cliente = clienteRepository.findByClienteId(clienteId)
+        Cliente cliente = clienteRepository.findByClienteIdAndEstadoTrue(clienteId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con el clienteId: " + clienteId));
         return mapToDTO(cliente);
     }
@@ -62,8 +62,8 @@ public class ClienteService {
 
     @Transactional
     public ClienteDTO update(Long id, ClienteDTO clienteDTO) {
-        Cliente clienteExistente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con el ID: " + id));
+        Cliente clienteExistente = clienteRepository.findByIdAndEstadoTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado (o inactivo) con el ID: " + id));
 
         // Actualización de campos de Persona y Cliente
         clienteExistente.setNombre(clienteDTO.getNombre());
@@ -79,11 +79,16 @@ public class ClienteService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
-        if (!clienteRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Cliente no encontrado con el ID: " + id);
-        }
-        clienteRepository.deleteById(id);
+    public void deleteById(Long id) { // Soft Delete
+        Cliente cliente = clienteRepository.findByIdAndEstadoTrue(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado (o inactivo) con el ID: " + id));
+
+        // Disable client
+        cliente.setEstado(false);
+        clienteRepository.save(cliente);
+
+        // Disable all accounts ligated to the client
+        clienteRepository.disableCuentasByClienteId(cliente.getClienteId());
     }
 
     // --- Mapper Methods ---
