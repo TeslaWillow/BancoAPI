@@ -1,16 +1,16 @@
 // ./frontend_angular/src/app/features/clientes/pages/clientes-page/clientes-page.component.scss
-@use 'variables' as *;
 
-.clientes-page {
+.page-container {
   display: flex;
   flex-direction: column;
-  padding: $spacing-lg;
-  .page-header {
-    .page-title {
-      font-size: 1.875rem;
-      font-weight: 700;
-      color: #111827;
-      margin: 0;
-    }
+  gap: 1.5rem;
+}
+
+.page-header {
+  .page-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
   }
 }

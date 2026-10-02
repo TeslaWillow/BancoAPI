@@ -15,7 +15,7 @@ export class ReporteApiService {
   private readonly _api = inject(ApiService);
   private readonly _apiUrl = '/api/v1/reportes';
 
-  getReportData(params: ReporteFilterParams): Observable<MovimientoReporte[]> {
+  public getReportData(params: ReporteFilterParams): Observable<MovimientoReporte[]> {
     const httpParams = new HttpParams()
       .set('fechaInicio', params.startDate)
       .set('fechaFin', params.endDate)
@@ -26,11 +26,11 @@ export class ReporteApiService {
       .pipe(map(ReporteAdapter.toDomainList));
   }
 
-  downloadPdf(params: ReporteFilterParams): Observable<Blob> {
+  public downloadPdf(params: ReporteFilterParams): Observable<Blob> {
     const httpParams = new HttpParams()
       .set('fechaInicio', params.startDate)
       .set('fechaFin', params.endDate)
-      .set('cliente', params.clientId);
+      .set('clienteId', params.clientId);
 
     return this._api.getBlob(`${this._apiUrl}/pdf`, {
       params: httpParams,

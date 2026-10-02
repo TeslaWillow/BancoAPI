@@ -52,4 +52,11 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Long> {
             @Param("numeroCuenta") String numeroCuenta,
             @Param("inicioDia") LocalDateTime inicioDia,
             @Param("finDia") LocalDateTime finDia);
+
+    @Query("SELECT SUM(m.valor) FROM Movimiento m WHERE m.cuenta.numeroCuenta = :numeroCuenta AND m.valor < 0 AND m.fecha BETWEEN :inicio AND :fin")
+    Optional<BigDecimal> findTotalRetiradoHoy(
+            @Param("numeroCuenta") String numeroCuenta,
+            @Param("inicio") LocalDateTime inicio,
+            @Param("fin") LocalDateTime fin
+    );
 }

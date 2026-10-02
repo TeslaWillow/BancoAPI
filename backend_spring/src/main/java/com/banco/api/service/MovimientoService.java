@@ -2,7 +2,9 @@
 package com.banco.api.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import com.banco.api.repository.MovimientoRepository;
 @Service
 public class MovimientoService {
 
+    private static final BigDecimal DAILY_LIMIT = new BigDecimal("1000");
     private final MovimientoRepository movimientoRepository;
     private final CuentaRepository cuentaRepository;
 
@@ -54,41 +57,51 @@ public class MovimientoService {
 
     @Transactional
     public MovimientoDTO registrarMovimiento(MovimientoDTO movimientoDTO) {
-        // 1. Validar que exista la cuenta asociada
         Cuenta cuenta = cuentaRepository.findById(movimientoDTO.getNumeroCuenta())
                 .orElseThrow(() -> new ResourceNotFoundException("Cuenta no encontrada con el número: " + movimientoDTO.getNumeroCuenta()));
 
+        // verificar estado de la Cuenta
+        if (Boolean.FALSE.equals(cuenta.getEstado())) {
+            throw new BusinessException("La cuenta se encuentra inactiva");
+        }
+
         BigDecimal monto = movimientoDTO.getValor();
 
-        // Guard Clause: No permitir movimientos de monto cero
         if (monto.compareTo(BigDecimal.ZERO) == 0) {
             throw new BusinessException("El valor del movimiento no puede ser cero");
         }
 
         BigDecimal saldoActual = cuenta.getSaldoInicial();
 
-        // 2. Lógica para RETIROS (Monto negativo)
+        // Lógica de Débitos / Retiros (Monto negativo)
         if (monto.compareTo(BigDecimal.ZERO) < 0) {
             BigDecimal montoAbsoluto = monto.abs();
 
-            // Guard Clause 1: Saldo Insuficiente
-            if (saldoActual.compareTo(montoAbsoluto) < 0) {
+            // Saldo insuficiente o saldo en cero
+            if (saldoActual.compareTo(BigDecimal.ZERO) <= 0 || saldoActual.compareTo(montoAbsoluto) < 0) {
                 throw new InsufficientBalanceException("Saldo no disponible");
             }
 
-            // Guard Clause 2: Límite diario
-            BigDecimal nuevoSaldoCalculado = saldoActual.add(monto);
-            if (nuevoSaldoCalculado.compareTo(BigDecimal.ZERO) < 0) {
-                throw new DailyLimitExceededException("Cupo diario excedido para la cuenta: " + cuenta.getNumeroCuenta());
+            // Validación del límite diario ($1000)
+            LocalDateTime inicioHoy = LocalDate.now().atStartOfDay();
+            LocalDateTime finHoy = LocalDate.now().atTime(LocalTime.MAX);
+
+            BigDecimal retiradoHoy = movimientoRepository
+                    .findTotalRetiradoHoy(cuenta.getNumeroCuenta(), inicioHoy, finHoy)
+                    .orElse(BigDecimal.ZERO)
+                    .abs();
+
+            BigDecimal totalConNuevoRetiro = retiradoHoy.add(montoAbsoluto);
+
+            if (totalConNuevoRetiro.compareTo(DAILY_LIMIT) > 0) {
+                throw new DailyLimitExceededException("Cupo diario Excedido");
             }
         }
 
-        // 3. Calcular el nuevo saldo y actualizar la cuenta
         BigDecimal nuevoSaldo = saldoActual.add(monto);
         cuenta.setSaldoInicial(nuevoSaldo);
         cuentaRepository.save(cuenta);
 
-        // 4. Mapear y guardar el registro del movimiento
         Movimiento movimiento = Movimiento.builder()
                 .fecha(movimientoDTO.getFecha() != null ? movimientoDTO.getFecha() : LocalDateTime.now())
                 .tipoMovimiento(movimientoDTO.getTipoMovimiento())
@@ -102,7 +115,6 @@ public class MovimientoService {
     }
 
     // --- Mapper Methods ---
-
     private MovimientoDTO mapToDTO(Movimiento movimiento) {
         return MovimientoDTO.builder()
                 .id(movimiento.getId())
@@ -113,4 +125,5 @@ public class MovimientoService {
                 .numeroCuenta(movimiento.getCuenta().getNumeroCuenta())
                 .build();
     }
+
 }
