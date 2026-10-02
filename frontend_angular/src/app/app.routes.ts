@@ -14,10 +14,13 @@ export const routes: Routes = [
       },
       {
         path: 'clientes',
-        loadComponent: () =>
-          import('./features/clientes/components/clientes-page-component/clientes-page.component').then(
-            (m) => m.ClientesPageComponent,
-          ),
+        loadChildren: () =>
+          import('./features/clientes/clientes.routes').then((m) => m.CLIENTES_ROUTES),
+      },
+      {
+        path: 'cuentas',
+        loadChildren: () =>
+          import('./features/cuentas/cuentas.routes').then((m) => m.CUENTAS_ROUTES),
       },
     ],
   },

@@ -1,0 +1,70 @@
+<!-- ./src/app/features/cuentas/pages/cuentas-page/cuentas-page.component.html -->
+<div class="page-container">
+  <header class="page-header">
+    <h1 class="page-title">Cuentas</h1>
+  </header>
+
+  <div class="actions-bar">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por número o tipo de cuenta..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        class="search-input"
+      />
+    </div>
+    <button type="button" class="btn btn-primary" (click)="openModal()">Nueva Cuenta</button>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Número Cuenta</th>
+          <th>Tipo</th>
+          <th>Saldo Inicial</th>
+          <th>Estado</th>
+          <th>ID Cliente</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cuenta of filteredCuentas(); track cuenta.id) {
+          <tr>
+            <td>{{ cuenta.accountNumber }}</td>
+            <td>{{ cuenta.accountType }}</td>
+            <td>{{ cuenta.initialBalance | currency }}</td>
+            <td>
+              <span [class]="cuenta.status ? 'status-badge active' : 'status-badge inactive'">
+                {{ cuenta.status ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td>{{ cuenta.clientId }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty-state">No se encontraron cuentas registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Registrar Nueva Cuenta</h2>
+        <button type="button" class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <app-cuenta-form
+          [clientes]="clientes()"
+          (submitForm)="handleCreate($event)"
+          (cancel)="closeModal()"
+        />
+      </div>
+    </div>
+  </div>
+}
