@@ -1,0 +1,88 @@
+<!-- ./src/app/features/reportes/pages/reportes-page/reportes-page.component.html -->
+<div class="page-container">
+  <header class="page-header">
+    <h1 class="page-title">Estado de Cuenta</h1>
+  </header>
+
+  <form [formGroup]="filterForm" (ngSubmit)="onFilter()" class="filter-card">
+    <div class="filter-group">
+      <label for="startDate">Fecha Inicio *</label>
+      <input id="startDate" type="date" formControlName="startDate" />
+    </div>
+
+    <div class="filter-group">
+      <label for="endDate">Fecha Fin *</label>
+      <input id="endDate" type="date" formControlName="endDate" />
+    </div>
+
+    <div class="filter-group">
+      <label for="clientId">Cliente *</label>
+      <select id="clientId" formControlName="clientId">
+        <option value="" disabled>Seleccione un cliente</option>
+        @for (cliente of clientes(); track cliente.id) {
+          <option [value]="cliente.clientId">
+            {{ cliente.fullName }} ({{ cliente.clientId }})
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="filterForm.invalid || isLoading()">
+        {{ isLoading() ? 'Generando...' : 'Generar Reporte' }}
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="onExportPdf()"
+        [disabled]="filterForm.invalid || isPdfDownloading() || reportData().length === 0"
+      >
+        {{ isPdfDownloading() ? 'Exportando...' : 'Exportar PDF' }}
+      </button>
+    </div>
+  </form>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Cliente</th>
+          <th>Número Cuenta</th>
+          <th>Tipo</th>
+          <th>Saldo Inicial</th>
+          <th>Estado</th>
+          <th>Movimiento</th>
+          <th>Saldo Disponible</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of reportData(); track $index) {
+          <tr>
+            <td>{{ row.date | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ row.clientName }}</td>
+            <td>{{ row.accountNumber }}</td>
+            <td>{{ row.accountType }}</td>
+            <td>{{ row.initialBalance | currency }}</td>
+            <td>
+              <span [class]="row.status ? 'status-badge active' : 'status-badge inactive'">
+                {{ row.status ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td [class.negative]="row.movementValue < 0" [class.positive]="row.movementValue > 0">
+              {{ row.movementValue | currency }}
+            </td>
+            <td>{{ row.availableBalance | currency }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8" class="empty-state">
+              Seleccione los filtros y haga clic en "Generar Reporte" para consultar la información.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

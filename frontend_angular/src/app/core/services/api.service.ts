@@ -14,6 +14,13 @@ export class ApiService {
     return this._http.get<T>(path, this._buildOptions(options));
   }
 
+  public getBlob(path: string, options?: Omit<RequestOptions, 'responseType'>): Observable<Blob> {
+    return this._http.get(path, {
+      ...this._buildOptions(options),
+      responseType: 'blob',
+    });
+  }
+
   public post<T, K = unknown>(path: string, body: K, options?: RequestOptions): Observable<T> {
     return this._http.post<T>(path, body, this._buildOptions(options));
   }
