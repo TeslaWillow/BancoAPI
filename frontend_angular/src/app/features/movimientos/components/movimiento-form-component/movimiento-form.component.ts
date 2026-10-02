@@ -3,11 +3,14 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateMovimientoFormPayload, TipoMovimiento } from '../../models/movimiento.model';
 import { Cuenta } from '../../../cuentas/models/cuenta.model';
+import { ButtonComponent } from '../../../../shared/components/atoms/button/button.component';
+import { InputComponent } from '../../../../shared/components/atoms/input/input.component';
+import { FormFieldComponent } from '../../../../shared/components/molecules/form-field-component/form-field.component';
 
 @Component({
   selector: 'app-movimiento-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ButtonComponent, InputComponent, FormFieldComponent],
   templateUrl: './movimiento-form.component.html',
   styleUrl: './movimiento-form.component.scss',
 })

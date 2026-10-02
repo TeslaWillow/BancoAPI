@@ -18,4 +18,8 @@ export class ClienteApiService {
     const body = ClienteAdapter.toApiCreate(payload);
     return this.api.post<ClienteBackendDTO>(this.apiUrl, body).pipe(map(ClienteAdapter.toDomain));
   }
+
+  public delete(id: number | string): Observable<void> {
+    return this.api.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

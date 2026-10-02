@@ -1,76 +1,84 @@
 <!-- ./src/app/features/clientes/components/cliente-form/cliente-form.component.html -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
-  <div class="form-group">
-    <label for="fullName">Nombre Completo *</label>
-    <input
-      id="fullName"
-      type="text"
-      formControlName="fullName"
-      [class.is-invalid]="isInvalid('fullName')"
-    />
-  </div>
 
-  <div class="form-group">
-    <label for="documentId">Identificación / DNI *</label>
-    <input
-      id="documentId"
-      type="text"
-      formControlName="documentId"
-      [class.is-invalid]="isInvalid('documentId')"
-    />
-  </div>
+  <app-input
+    id="fullName"
+    label="Nombre Completo"
+    placeholder="Ej: Juan Pérez"
+    formControlName="fullName"
+    [required]="true"
+    [errorMessage]="isInvalid('fullName') ? 'El nombre es requerido' : null"
+  />
 
-  <div class="form-group">
-    <label for="clientId">ID de Cliente / Username *</label>
-    <input
-      id="clientId"
-      type="text"
-      formControlName="clientId"
-      [class.is-invalid]="isInvalid('clientId')"
-    />
-  </div>
+  <app-input
+    id="documentId"
+    label="Identificación / DNI"
+    placeholder="Ej: 1712345678"
+    formControlName="documentId"
+    [required]="true"
+    [errorMessage]="isInvalid('documentId') ? 'La identificación es requerida' : null"
+  />
 
-  <div class="form-group">
-    <label for="password">Contraseña *</label>
-    <input
-      id="password"
-      type="password"
-      formControlName="password"
-      [class.is-invalid]="isInvalid('password')"
-    />
-  </div>
+  <app-input
+    id="clientId"
+    label="ID de Cliente / Username"
+    placeholder="Ej: jperez"
+    formControlName="clientId"
+    [required]="true"
+    [errorMessage]="isInvalid('clientId') ? 'El ID de cliente es requerido' : null"
+  />
 
-  <div class="form-group">
-    <label for="gender">Género *</label>
-    <select id="gender" formControlName="gender" [class.is-invalid]="isInvalid('gender')">
+  <app-input
+    id="password"
+    label="Contraseña"
+    type="password"
+    placeholder="Ingrese una contraseña"
+    formControlName="password"
+    [required]="true"
+    [errorMessage]="isInvalid('password') ? 'La contraseña es requerida' : null"
+  />
+
+  <app-form-field label="Género" forId="gender" [required]="true">
+    <select id="gender" formControlName="gender" class="form-select">
       <option value="MASCULINO">Masculino</option>
       <option value="FEMENINO">Femenino</option>
       <option value="OTRO">Otro</option>
     </select>
-  </div>
+  </app-form-field>
 
-  <div class="form-group">
-    <label for="age">Edad *</label>
-    <input id="age" type="number" formControlName="age" [class.is-invalid]="isInvalid('age')" />
-  </div>
+  <app-input
+    id="age"
+    label="Edad"
+    type="number"
+    placeholder="18"
+    formControlName="age"
+    [required]="true"
+    [errorMessage]="isInvalid('age') ? 'La edad debe ser mayor a 0' : null"
+  />
 
-  <div class="form-group full-width">
-    <label for="address">Dirección *</label>
-    <input
+  <div class="full-width">
+    <app-input
       id="address"
-      type="text"
+      label="Dirección"
+      placeholder="Ej: Av. Principal 123"
       formControlName="address"
-      [class.is-invalid]="isInvalid('address')"
+      [required]="true"
+      [errorMessage]="isInvalid('address') ? 'La dirección es requerida' : null"
     />
   </div>
 
-  <div class="form-group">
-    <label for="phone">Teléfono *</label>
-    <input id="phone" type="text" formControlName="phone" [class.is-invalid]="isInvalid('phone')" />
-  </div>
+  <app-input
+    id="phone"
+    label="Teléfono"
+    placeholder="Ej: 0998765432"
+    formControlName="phone"
+    [required]="true"
+    [errorMessage]="isInvalid('phone') ? 'El teléfono es requerido' : null"
+  />
 
   <div class="form-actions full-width">
-    <app-button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</app-button>
-    <app-button type="submit" class="btn btn-primary">Guardar</app-button>
+    <app-button type="button" variant="outline" (clicked)="onCancel()">Cancelar</app-button>
+    <app-button type="submit" variant="primary">Guardar</app-button>
   </div>
+
 </form>

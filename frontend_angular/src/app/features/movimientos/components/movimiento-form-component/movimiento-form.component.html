@@ -1,18 +1,16 @@
 <!-- ./src/app/features/movimientos/components/movimiento-form/movimiento-form.component.html -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
+
   @if (errorMessage) {
     <div class="error-alert full-width">
       {{ errorMessage }}
     </div>
   }
 
-  <div class="form-group full-width">
-    <label for="accountNumber">Cuenta *</label>
-    <select
-      id="accountNumber"
-      formControlName="accountNumber"
-      [class.is-invalid]="isInvalid('accountNumber')"
-    >
+  <app-form-field label="Cuenta" forId="accountNumber" [required]="true" class="full-width"
+    [errorMessage]="isInvalid('accountNumber') ? 'Seleccione una cuenta' : null">
+    <select id="accountNumber" formControlName="accountNumber" class="form-select"
+      [class.form-select--error]="isInvalid('accountNumber')">
       <option value="" disabled>Seleccione una cuenta</option>
       @for (cuenta of cuentas; track cuenta.id) {
         <option [value]="cuenta.accountNumber">
@@ -20,29 +18,28 @@
         </option>
       }
     </select>
-  </div>
+  </app-form-field>
 
-  <div class="form-group">
-    <label for="movementType">Tipo de Movimiento *</label>
-    <select id="movementType" formControlName="movementType">
+  <app-form-field label="Tipo de Movimiento" forId="movementType" [required]="true">
+    <select id="movementType" formControlName="movementType" class="form-select">
       <option value="DEPOSITO">Depósito</option>
       <option value="RETIRO">Retiro</option>
     </select>
-  </div>
+  </app-form-field>
 
-  <div class="form-group">
-    <label for="value">Monto *</label>
-    <input
-      id="value"
-      type="number"
-      step="0.01"
-      formControlName="value"
-      [class.is-invalid]="isInvalid('value')"
-    />
-  </div>
+  <app-input
+    id="value"
+    label="Monto"
+    type="number"
+    placeholder="0.00"
+    formControlName="value"
+    [required]="true"
+    [errorMessage]="isInvalid('value') ? 'Ingrese un monto mayor a 0' : null"
+  />
 
   <div class="form-actions full-width">
-    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
-    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Registrar</button>
+    <app-button type="button" variant="outline" (clicked)="onCancel()">Cancelar</app-button>
+    <app-button type="submit" variant="primary" [disabled]="form.invalid">Registrar</app-button>
   </div>
+
 </form>

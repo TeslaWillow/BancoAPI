@@ -3,11 +3,13 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateClienteFormPayload } from '../../models/cliente.model';
 import { ButtonComponent } from '../../../../shared/components/atoms/button/button.component';
+import { InputComponent } from '../../../../shared/components/atoms/input/input.component';
+import { FormFieldComponent } from '../../../../shared/components/molecules/form-field-component/form-field.component';
 
 @Component({
   selector: 'app-cliente-form',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonComponent],
+  imports: [ReactiveFormsModule, ButtonComponent, InputComponent, FormFieldComponent],
   templateUrl: './cliente-form.component.html',
   styleUrl: './cliente-form.component.scss',
 })

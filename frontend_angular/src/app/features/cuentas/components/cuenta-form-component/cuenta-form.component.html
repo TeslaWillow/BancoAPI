@@ -1,52 +1,53 @@
 <!-- ./src/app/features/cuentas/components/cuenta-form/cuenta-form.component.html -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
-  <div class="form-group">
-    <label for="accountNumber">Número de Cuenta *</label>
-    <input
-      id="accountNumber"
-      type="text"
-      formControlName="accountNumber"
-      [class.is-invalid]="isInvalid('accountNumber')"
-    />
-  </div>
 
-  <div class="form-group">
-    <label for="accountType">Tipo de Cuenta *</label>
-    <select id="accountType" formControlName="accountType">
+  <app-input
+    id="accountNumber"
+    label="Número de Cuenta"
+    placeholder="Ej: 478758"
+    formControlName="accountNumber"
+    [required]="true"
+    [errorMessage]="isInvalid('accountNumber') ? 'El número de cuenta es requerido' : null"
+  />
+
+  <app-form-field label="Tipo de Cuenta" forId="accountType" [required]="true">
+    <select id="accountType" formControlName="accountType" class="form-select">
       <option value="AHORROS">Ahorros</option>
       <option value="CORRIENTE">Corriente</option>
     </select>
-  </div>
+  </app-form-field>
 
-  <div class="form-group">
-    <label for="initialBalance">Saldo Inicial *</label>
-    <input
-      id="initialBalance"
-      type="number"
-      formControlName="initialBalance"
-      [class.is-invalid]="isInvalid('initialBalance')"
-    />
-  </div>
+  <app-input
+    id="initialBalance"
+    label="Saldo Inicial"
+    type="number"
+    placeholder="0"
+    formControlName="initialBalance"
+    [required]="true"
+    [errorMessage]="isInvalid('initialBalance') ? 'El saldo inicial debe ser mayor o igual a 0' : null"
+  />
 
-  <div class="form-group">
-    <label for="clientId">Cliente *</label>
-    <select id="clientId" formControlName="clientId" [class.is-invalid]="isInvalid('clientId')">
+  <app-form-field label="Cliente" forId="clientId" [required]="true"
+    [errorMessage]="isInvalid('clientId') ? 'Seleccione un cliente' : null">
+    <select id="clientId" formControlName="clientId" class="form-select"
+      [class.form-select--error]="isInvalid('clientId')">
       <option value="" disabled>Seleccione un cliente</option>
       @for (cliente of clientes; track cliente.id) {
         <option [value]="cliente.clientId">{{ cliente.fullName }} ({{ cliente.clientId }})</option>
       }
     </select>
-  </div>
+  </app-form-field>
 
-  <div class="form-group checkbox-group full-width">
-    <label>
+  <div class="checkbox-group full-width">
+    <label class="checkbox-label">
       <input type="checkbox" formControlName="status" />
       Estado Activo
     </label>
   </div>
 
   <div class="form-actions full-width">
-    <app-button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</app-button>
-    <app-button type="submit" class="btn btn-primary">Guardar</app-button>
+    <app-button type="button" variant="outline" (clicked)="onCancel()">Cancelar</app-button>
+    <app-button type="submit" variant="primary">Guardar</app-button>
   </div>
+
 </form>

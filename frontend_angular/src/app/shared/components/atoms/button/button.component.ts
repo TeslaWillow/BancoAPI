@@ -2,7 +2,8 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 @Component({
@@ -15,6 +16,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 export class ButtonComponent {
   public type = input<ButtonType>('button');
   public variant = input<ButtonVariant>('primary');
+  public size = input<ButtonSize>('md');
   public disabled = input<boolean>(false);
   public isLoading = input<boolean>(false);
   public ariaLabel = input<string | undefined>(undefined);

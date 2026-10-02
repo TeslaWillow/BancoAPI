@@ -1,5 +1,5 @@
 // ./frontend_angular/src/app/features/clientes/pages/clientes-page/clientes-page.component.ts
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, viewChild, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClienteApiService } from '../../services/cliente-api.service';
 import { Cliente, CreateClienteFormPayload } from '../../models/cliente.model';
@@ -10,6 +10,8 @@ import {
 } from '../../../../shared/components/organisms/table-component/table.component';
 import { ModalComponent } from '../../../../shared/components/organisms/modal-component/modal.component';
 import { ClienteFormComponent } from '../../components/cliente-form-component/cliente-form.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/molecules/confirm-dialog-component/confirm-dialog.component';
+import { ButtonComponent } from '../../../../shared/components/atoms/button/button.component';
 
 @Component({
   selector: 'app-clientes-page',
@@ -20,6 +22,8 @@ import { ClienteFormComponent } from '../../components/cliente-form-component/cl
     TableComponent,
     ModalComponent,
     ClienteFormComponent,
+    ConfirmDialogComponent,
+    ButtonComponent,
   ],
   templateUrl: './clientes-page.component.html',
   styleUrls: ['./clientes-page.component.scss'],
@@ -27,16 +31,34 @@ import { ClienteFormComponent } from '../../components/cliente-form-component/cl
 export class ClientesPageComponent implements OnInit {
   private readonly clienteApiService = inject(ClienteApiService);
 
+  readonly actionsTemplate = viewChild<TemplateRef<{ $implicit: Cliente }>>('actionsTemplate');
+
   clientes = signal<Cliente[]>([]);
   searchQuery = signal<string>('');
   isLoading = signal<boolean>(false);
   isModalOpen = signal<boolean>(false);
 
-  columns: TableColumn<Cliente>[] = [
+  clienteToDelete = signal<Cliente | null>(null);
+  isConfirmDialogOpen = signal<boolean>(false);
+
+  confirmDialogMessage = computed(() => {
+    const c = this.clienteToDelete();
+    if (!c) {
+      return '¿Está seguro de eliminar este cliente? Esta acción también desactivará todas sus cuentas asociadas.';
+    }
+    return `¿Está seguro de eliminar al cliente "${c.fullName}"? Esta acción también desactivará todas sus cuentas asociadas.`;
+  });
+
+  readonly columns = computed<TableColumn<Cliente>[]>(() => [
     { key: 'id', header: 'ID' },
     { key: 'fullName', header: 'Nombre Completo' },
     { key: 'documentId', header: 'Identificación' },
-  ];
+    {
+      key: 'actions',
+      header: 'Acciones',
+      cellTemplate: this.actionsTemplate(),
+    },
+  ]);
 
   filteredClientes = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
@@ -81,6 +103,35 @@ export class ClientesPageComponent implements OnInit {
       next: (newCliente) => {
         this.clientes.update((list) => [...list, newCliente]);
         this.closeModal();
+      },
+    });
+  }
+
+  promptDelete(cliente: Cliente): void {
+    this.clienteToDelete.set(cliente);
+    this.isConfirmDialogOpen.set(true);
+  }
+
+  cancelDelete(): void {
+    this.isConfirmDialogOpen.set(false);
+    this.clienteToDelete.set(null);
+  }
+
+  confirmDelete(): void {
+    const cliente = this.clienteToDelete();
+    if (!cliente || cliente.id == null) {
+      this.cancelDelete();
+      return;
+    }
+
+    this.clienteApiService.delete(cliente.id).subscribe({
+      next: () => {
+        this.loadClientes();
+        this.cancelDelete();
+      },
+      error: (err) => {
+        console.error('Error al eliminar cliente', err);
+        this.cancelDelete();
       },
     });
   }

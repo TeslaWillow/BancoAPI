@@ -28,6 +28,21 @@
     cursor: not-allowed;
   }
 
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: 0.75rem;
+  }
+
+  &--md {
+    padding: $spacing-sm $spacing-md;
+    font-size: 0.875rem;
+  }
+
+  &--lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: 1rem;
+  }
+
   &--primary {
     background-color: var(--color-primary);
     color: var(--color-primary-contrast);
@@ -55,6 +70,17 @@
 
     &:hover:not(:disabled) {
       background-color: var(--bg-secondary);
+    }
+  }
+
+  &--danger {
+    background-color: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+
+    &:hover:not(:disabled) {
+      background-color: #b91c1c;
+      border-color: #b91c1c;
     }
   }
 
