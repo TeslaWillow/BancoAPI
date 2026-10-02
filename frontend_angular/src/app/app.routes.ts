@@ -22,6 +22,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/cuentas/cuentas.routes').then((m) => m.CUENTAS_ROUTES),
       },
+      {
+        path: 'movimientos',
+        loadChildren: () =>
+          import('./features/movimientos/movimientos.routes').then((m) => m.MOVIMIENTOS_ROUTES),
+      },
     ],
   },
   {

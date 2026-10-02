@@ -1,0 +1,71 @@
+<!-- ./src/app/features/movimientos/pages/movimientos-page/movimientos-page.component.html -->
+<div class="page-container">
+  <header class="page-header">
+    <h1 class="page-title">Movimientos</h1>
+  </header>
+
+  <div class="actions-bar">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por número de cuenta o tipo..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        class="search-input"
+      />
+    </div>
+    <button type="button" class="btn btn-primary" (click)="openModal()">Nuevo Movimiento</button>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Número Cuenta</th>
+          <th>Tipo</th>
+          <th>Monto</th>
+          <th>Saldo Disponible</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (mov of filteredMovimientos(); track mov.id) {
+          <tr>
+            <td>{{ mov.id }}</td>
+            <td>{{ mov.date | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ mov.accountNumber }}</td>
+            <td>{{ mov.movementType }}</td>
+            <td [class.negative]="mov.value < 0" [class.positive]="mov.value > 0">
+              {{ mov.value | currency }}
+            </td>
+            <td>{{ mov.balance | currency }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty-state">No se encontraron movimientos registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Registrar Movimiento</h2>
+        <button type="button" class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <app-movimiento-form
+          [cuentas]="cuentas()"
+          [errorMessage]="errorMessage()"
+          (submitForm)="handleCreate($event)"
+          (cancel)="closeModal()"
+        />
+      </div>
+    </div>
+  </div>
+}
