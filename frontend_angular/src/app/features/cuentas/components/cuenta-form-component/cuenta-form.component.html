@@ -1,6 +1,5 @@
 <!-- ./src/app/features/cuentas/components/cuenta-form/cuenta-form.component.html -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
-
   <app-input
     id="accountNumber"
     label="Número de Cuenta"
@@ -24,13 +23,23 @@
     placeholder="0"
     formControlName="initialBalance"
     [required]="true"
-    [errorMessage]="isInvalid('initialBalance') ? 'El saldo inicial debe ser mayor o igual a 0' : null"
+    [errorMessage]="
+      isInvalid('initialBalance') ? 'El saldo inicial debe ser mayor o igual a 0' : null
+    "
   />
 
-  <app-form-field label="Cliente" forId="clientId" [required]="true"
-    [errorMessage]="isInvalid('clientId') ? 'Seleccione un cliente' : null">
-    <select id="clientId" formControlName="clientId" class="form-select"
-      [class.form-select--error]="isInvalid('clientId')">
+  <app-form-field
+    label="Cliente"
+    forId="clientId"
+    [required]="true"
+    [errorMessage]="isInvalid('clientId') ? 'Seleccione un cliente' : null"
+  >
+    <select
+      id="clientId"
+      formControlName="clientId"
+      class="form-select"
+      [class.form-select--error]="isInvalid('clientId')"
+    >
       <option value="" disabled>Seleccione un cliente</option>
       @for (cliente of clientes; track cliente.id) {
         <option [value]="cliente.clientId">{{ cliente.fullName }} ({{ cliente.clientId }})</option>
@@ -47,7 +56,8 @@
 
   <div class="form-actions full-width">
     <app-button type="button" variant="outline" (clicked)="onCancel()">Cancelar</app-button>
-    <app-button type="submit" variant="primary">Guardar</app-button>
+    <app-button type="submit" variant="primary">
+      {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+    </app-button>
   </div>
-
 </form>

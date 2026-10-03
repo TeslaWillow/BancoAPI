@@ -19,4 +19,20 @@ export class CuentaApiService {
     const body = CuentaAdapter.toApiCreate(payload);
     return this._api.post<CuentaBackendDTO>(this._apiUrl, body).pipe(map(CuentaAdapter.toDomain));
   }
+
+  public update(
+    accountNumber: string,
+    payload: Partial<CreateCuentaFormPayload>,
+    cuenta: Cuenta,
+  ): Observable<Cuenta> {
+    const body = CuentaAdapter.toApiUpdate(payload, cuenta);
+    return this._api
+      .put<CuentaBackendDTO>(`${this._apiUrl}/${accountNumber}`, body)
+      .pipe(map(CuentaAdapter.toDomain));
+  }
+
+  // Softdelete por el estado
+  public delete(accountNumber: string): Observable<void> {
+    return this._api.delete<void>(`${this._apiUrl}/${accountNumber}`);
+  }
 }

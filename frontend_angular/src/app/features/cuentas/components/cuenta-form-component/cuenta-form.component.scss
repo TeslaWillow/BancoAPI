@@ -25,6 +25,11 @@
     outline-offset: 1px;
   }
 
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
   &--error {
     border-color: var(--color-error);
   }

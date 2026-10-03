@@ -26,4 +26,14 @@ export class CuentaAdapter {
       clienteId: payload.clientId,
     };
   }
+
+  static toApiUpdate(payload: Partial<CreateCuentaFormPayload>, cuenta: Cuenta): CuentaBackendDTO {
+    return {
+      numeroCuenta: cuenta.accountNumber,
+      tipoCuenta: payload.accountType ?? cuenta.accountType,
+      saldoInicial: Number(payload.initialBalance ?? cuenta.initialBalance),
+      estado: payload.status ?? cuenta.status,
+      clienteId: cuenta.clientId,
+    };
+  }
 }
