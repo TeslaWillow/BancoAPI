@@ -1,6 +1,5 @@
 <!-- ./src/app/features/clientes/components/cliente-form/cliente-form.component.html -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
-
   <app-input
     id="fullName"
     label="Nombre Completo"
@@ -28,15 +27,17 @@
     [errorMessage]="isInvalid('clientId') ? 'El ID de cliente es requerido' : null"
   />
 
-  <app-input
-    id="password"
-    label="Contraseña"
-    type="password"
-    placeholder="Ingrese una contraseña"
-    formControlName="password"
-    [required]="true"
-    [errorMessage]="isInvalid('password') ? 'La contraseña es requerida' : null"
-  />
+  @if (!isEditMode) {
+    <app-input
+      id="password"
+      label="Contraseña"
+      type="password"
+      placeholder="Ingrese una contraseña"
+      formControlName="password"
+      [required]="true"
+      [errorMessage]="isInvalid('password') ? 'La contraseña es requerida' : null"
+    />
+  }
 
   <app-form-field label="Género" forId="gender" [required]="true">
     <select id="gender" formControlName="gender" class="form-select">
@@ -78,7 +79,8 @@
 
   <div class="form-actions full-width">
     <app-button type="button" variant="outline" (clicked)="onCancel()">Cancelar</app-button>
-    <app-button type="submit" variant="primary">Guardar</app-button>
+    <app-button type="submit" variant="primary">
+      {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+    </app-button>
   </div>
-
 </form>

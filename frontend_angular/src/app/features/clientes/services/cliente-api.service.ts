@@ -19,6 +19,17 @@ export class ClienteApiService {
     return this.api.post<ClienteBackendDTO>(this.apiUrl, body).pipe(map(ClienteAdapter.toDomain));
   }
 
+  public update(
+    id: number | string,
+    payload: Partial<CreateClienteFormPayload>,
+    cliente: Cliente,
+  ): Observable<Cliente> {
+    const body = ClienteAdapter.toApiUpdate(payload, cliente);
+    return this.api
+      .put<ClienteBackendDTO>(`${this.apiUrl}/${id}`, body)
+      .pipe(map(ClienteAdapter.toDomain));
+  }
+
   public delete(id: number | string): Observable<void> {
     return this.api.delete<void>(`${this.apiUrl}/${id}`);
   }

@@ -38,6 +38,10 @@ export class ClientesPageComponent implements OnInit {
   isLoading = signal<boolean>(false);
   isModalOpen = signal<boolean>(false);
 
+  clienteToEdit = signal<Cliente | null>(null);
+  isEditMode = computed(() => this.clienteToEdit() !== null);
+  modalTitle = computed(() => (this.isEditMode() ? 'Editar Cliente' : 'Registrar Nuevo Cliente'));
+
   clienteToDelete = signal<Cliente | null>(null);
   isConfirmDialogOpen = signal<boolean>(false);
 
@@ -91,11 +95,26 @@ export class ClientesPageComponent implements OnInit {
   }
 
   openModal(): void {
+    this.clienteToEdit.set(null);
+    this.isModalOpen.set(true);
+  }
+
+  openEditModal(cliente: Cliente): void {
+    this.clienteToEdit.set(cliente);
     this.isModalOpen.set(true);
   }
 
   closeModal(): void {
     this.isModalOpen.set(false);
+    this.clienteToEdit.set(null);
+  }
+
+  handleSubmitCliente(payload: CreateClienteFormPayload): void {
+    if (this.isEditMode()) {
+      this.handleUpdateCliente(payload);
+    } else {
+      this.handleCreateCliente(payload);
+    }
   }
 
   handleCreateCliente(payload: CreateClienteFormPayload): void {
@@ -103,6 +122,27 @@ export class ClientesPageComponent implements OnInit {
       next: (newCliente) => {
         this.clientes.update((list) => [...list, newCliente]);
         this.closeModal();
+      },
+    });
+  }
+
+  handleUpdateCliente(payload: CreateClienteFormPayload): void {
+    const cliente = this.clienteToEdit();
+    if (!cliente || cliente.id == null) {
+      this.closeModal();
+      return;
+    }
+
+    this.clienteApiService.update(cliente.id, payload, cliente).subscribe({
+      next: (updatedCliente) => {
+        this.clientes.update((list) =>
+          list.map((c) => (c.id === updatedCliente.id ? updatedCliente : c)),
+        );
+        this.closeModal();
+      },
+      error: (err) => {
+        // El modal permanece abierto para que el usuario pueda corregir y reintentar
+        console.error('Error al actualizar cliente', err);
       },
     });
   }

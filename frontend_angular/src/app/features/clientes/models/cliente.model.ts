@@ -23,6 +23,7 @@ export interface Cliente {
   status: boolean;
   gender: string;
   age: number;
+  contrasena?: string;
   clientId: string;
 }
 

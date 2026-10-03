@@ -12,6 +12,7 @@ export class ClienteAdapter {
       status: dto.estado,
       gender: dto.genero,
       age: dto.edad,
+      password: dto.contrasena,
       clientId: dto.clienteId,
     };
   }
@@ -31,6 +32,23 @@ export class ClienteAdapter {
       genero: payload.gender,
       edad: Number(payload.age),
       clienteId: payload.clientId,
+    };
+  }
+
+  static toApiUpdate(
+    payload: Partial<CreateClienteFormPayload>,
+    cliente: Cliente,
+  ): Partial<ClienteBackendDTO> {
+    return {
+      nombre: payload.fullName ?? cliente.fullName,
+      identificacion: payload.documentId ?? cliente.documentId,
+      direccion: payload.address ?? cliente.address,
+      telefono: payload.phone ?? cliente.phone,
+      estado: payload.status ?? cliente.status,
+      genero: payload.gender ?? cliente.gender,
+      edad: Number(payload.age ?? cliente.age),
+      contrasena: cliente.password,
+      clienteId: cliente.clientId,
     };
   }
 }
