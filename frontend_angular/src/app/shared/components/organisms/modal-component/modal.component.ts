@@ -10,10 +10,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent {
-  isOpen = input.required<boolean>();
-  title = input.required<string>();
+  public isOpen = input.required<boolean>();
+  public title = input.required<string>();
+  public closeOnBackdropClick = input<boolean>(false);
 
-  closeModal = output<void>();
+  public closeModal = output<void>();
 
   @HostListener('document:keydown.escape', ['$event'])
   onEscapeKey(event: Event): void {
@@ -23,7 +24,9 @@ export class ModalComponent {
     }
   }
 
-  onBackdropClick(event: MouseEvent): void {
+  public onBackdropClick(event: MouseEvent): void {
+    if (!this.closeOnBackdropClick()) return;
+
     if ((event.target as HTMLElement).classList.contains('modal-backdrop')) {
       this.closeModal.emit();
     }
