@@ -1,0 +1,384 @@
+{
+  "info": {
+    "_postman_id": "ef89c58a-f8d5-4cef-99d8-1c850d2d3f05",
+    "name": "DEVSU-SpringBoot",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "4441605"
+  },
+  "item": [
+    {
+      "name": "Get Clientes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/clientes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "clientes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find Cliente",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/clientes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "clientes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Cliente Copy",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nombre\": \"Josue Matias\",\r\n  \"genero\": \"MASCULINO\",\r\n  \"edad\": 35,\r\n  \"identificacion\": \"0859659694548\",\r\n  \"direccion\": \"Direccion nueva por update\",\r\n  \"telefono\": \"098874587\",\r\n  \"clienteId\": \"jlema\",\r\n  \"contrasena\": \"12345\",\r\n  \"estado\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/clientes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "clientes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Disable Cliente",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/clientes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "clientes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Clientes",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nombre\": \"Jose Lema\",\r\n  \"genero\": \"MASCULINO\",\r\n  \"edad\": 35,\r\n  \"identificacion\": \"1234567890\",\r\n  \"direccion\": \"Otavalo sn y principal\",\r\n  \"telefono\": \"098874587\",\r\n  \"clienteId\": \"jlema\",\r\n  \"contrasena\": \"1234\",\r\n  \"estado\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/clientes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "clientes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Cuentas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/cuentas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "cuentas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find Cuenta",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/cuentas/495878",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "cuentas",
+            "495878"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Cuenta",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numeroCuenta\": \"478758\",\r\n  \"tipoCuenta\": \"AHORROS\",\r\n  \"saldoInicial\": 2000.0,\r\n  \"estado\": true,\r\n  \"clienteId\": \"jlema\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/cuentas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "cuentas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Cuenta",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numeroCuenta\": \"495878\",\r\n  \"tipoCuenta\": \"CORRIENTE\",\r\n  \"saldoInicial\": 4444.0,\r\n  \"estado\": true,\r\n  \"clienteId\": \"jlema\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/cuentas/495878",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "cuentas",
+            "495878"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Disable Cuenta",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/cuentas/495878",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "cuentas",
+            "495878"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Movimientos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/movimientos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "movimientos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Movimientos/Retiros",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numeroCuenta\": \"5689689\",\r\n  \"tipoMovimiento\": \"RETIRO\",\r\n  \"valor\": -500\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/movimientos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "movimientos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Reporte",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/reportes?cliente=jlema&fechaInicio=2026-01-01&fechaFin=2026-12-31",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "reportes"
+          ],
+          "query": [
+            {
+              "key": "cliente",
+              "value": "jlema"
+            },
+            {
+              "key": "fechaInicio",
+              "value": "2026-01-01"
+            },
+            {
+              "key": "fechaFin",
+              "value": "2026-12-31"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Reporte PDF",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/reportes/pdf?clienteId=jlema&fechaInicio=2026-01-01&fechaFin=2026-12-31",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "reportes",
+            "pdf"
+          ],
+          "query": [
+            {
+              "key": "clienteId",
+              "value": "jlema"
+            },
+            {
+              "key": "fechaInicio",
+              "value": "2026-01-01"
+            },
+            {
+              "key": "fechaFin",
+              "value": "2026-12-31"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
