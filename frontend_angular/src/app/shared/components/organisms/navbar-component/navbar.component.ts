@@ -11,5 +11,5 @@ import { ThemeToggleComponent } from '../../atoms/theme-toggle/theme-toggle.comp
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  title = input<string>('Banking App');
+  title = input<string>('BANCO');
 }
