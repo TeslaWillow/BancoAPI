@@ -47,4 +47,6 @@ public class MovimientoController {
         MovimientoDTO nuevoMovimiento = movimientoService.registrarMovimiento(movimientoDTO);
         return new ResponseEntity<>(nuevoMovimiento, HttpStatus.CREATED);
     }
+
+    // No tenemos PUT/DEL porque los movimientos no deberian ser modificables o eliminados (A lo mucho un softdelete en caso de error o devolucion)
 }

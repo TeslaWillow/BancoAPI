@@ -71,7 +71,7 @@ public class CuentaService {
         cuenta.setTipoCuenta(cuentaDTO.getTipoCuenta());
         cuenta.setSaldoInicial(cuentaDTO.getSaldoInicial());
         cuenta.setEstado(cuentaDTO.getEstado());
-        cuenta.setCliente(cliente);
+        cuenta.setCliente(cliente); // Same clienteId
 
         Cuenta updatedCuenta = cuentaRepository.save(cuenta);
         return mapToDTO(updatedCuenta);
@@ -79,10 +79,12 @@ public class CuentaService {
 
     @Transactional
     public void deleteByNumeroCuenta(String numeroCuenta) {
-        if (!cuentaRepository.existsById(numeroCuenta)) {
-            throw new ResourceNotFoundException("Cuenta no encontrada con el número: " + numeroCuenta);
-        }
-        cuentaRepository.deleteById(numeroCuenta);
+        Cuenta cuenta = cuentaRepository.findByNumeroCuentaAndEstadoTrue(numeroCuenta)
+            .orElseThrow(() -> new ResourceNotFoundException("Cuenta no encontrada (o inactiva) con el número: " + numeroCuenta));
+
+        // Disable account
+        cuenta.setEstado(false);
+        cuentaRepository.save(cuenta);
     }
 
     @Transactional
